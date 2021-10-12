@@ -7,27 +7,50 @@ import {
   Text,
   TouchableOpacity,
   View,
+  TextInput,
+  Button,
+  Alert,
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import { Constants } from 'expo';
 
-import { MonoText } from '../components/StyledText';
-
-export default class SettingsScreen extends React.Component {
+export default class WelcomeScreen extends React.Component {
   static navigationOptions = {
-    title: 'Settings',
+    header: null,
   };
-
+  constructor(props) {
+    super(props);
+    this.state = { text: 'stranger' };
+  }
   render() {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <Text style={styles.largeTitle}>Welcome!</Text>
+          <View style={styles.welcomeContainer}>
+            <Text style={styles.label}>
+              To get started, please enter your name.
+            </Text>
+          </View>
           <View style={styles.getStartedContainer}>
-            <Text style={styles.getStartedText}>Settings...</Text>
+            <TextInput
+              style={styles.getStartedText}
+              placeholder="Hello stranger!"
+              onChangeText={text => this.setState({ text })}
+            />
           </View>
         </ScrollView>
+        <View style={styles.tabBarInfoContainer}>
+        <TouchableOpacity onPress={this._handleGoPress} style={styles.tabBarLink}>
+          <Text style={styles.tabBarLinkText}>Let's go!</Text>
+        </TouchableOpacity>
+        </View>
       </View>
     );
   }
+
+  _handleGoPress = () => {
+    Alert.alert('Yay!', 'Thanks, ' + this.state.text + '!');
+  };
 }
 
 const styles = StyleSheet.create({
@@ -35,12 +58,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
+  largeTitle: {
+    margin: 48,
+    fontSize: 52,
+    fontWeight: 'bold',
+    textAlign: 'left',
+  },
+  label: {
     textAlign: 'center',
+    fontSize: 18,
+    marginTop: 15,
+    alignItems: 'center',
+  },
+  btn: {
+    fontSize: 18,
   },
   contentContainer: {
     paddingTop: 30,
@@ -106,15 +137,18 @@ const styles = StyleSheet.create({
   navigationFilename: {
     marginTop: 5,
   },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
   helpLink: {
     paddingVertical: 15,
   },
   helpLinkText: {
     fontSize: 14,
+    color: '#2e78b7',
+  },
+  tabBarLink: {
+    paddingVertical: 15,
+  },
+  tabBarLinkText: {
+    fontSize: 28,
     color: '#2e78b7',
   },
 });
